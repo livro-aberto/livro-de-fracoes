@@ -1,0 +1,17 @@
+\documentclass[tikz, border=1mm]{standalone}
+
+
+
+\begin{document}
+	\begin{tikzpicture}
+	\draw [very thick] (0,0) -- (24,0);
+	\foreach \x in {0,...,24} \draw [very thick] (\x,0) -- (\x,-.5);
+
+	\node [above left] at (11.75,0) {\includegraphics[width=3cm]{tartaruga.png}};
+
+	\node [above=.3cm, rectangle, draw] at (0,0) {Partida};
+	\node [above=.3cm, rectangle, draw] at (24,0) {Chegada};
+
+    \foreach \x in {1,...,7} \node [below] at (\x*3,-.5) {$\frac{\x}{8}$}; 
+	\end{tikzpicture}
+\end{document}

@@ -1,0 +1,458 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{fracoesla-professor}[Pacote para o Livro de Frações do Projeto Livro Aberto de Matemática, versão do professor]
+
+% Define o diretório das figuras e das fontes
+\def\fontspath{Fontes/}
+\def\graphics{Figuras/}
+
+
+
+\def\aluno{0}
+
+%%%%%%%%%%%%%%%%%%% Pacotes
+
+\RequirePackage[brazil]{babel}
+\RequirePackage{xcolor}
+\RequirePackage{tcolorbox}
+\tcbuselibrary{theorems, listings, breakable, most, skins}
+
+\RequirePackage{amsmath, amssymb}
+\RequirePackage[inline]{enumitem}
+\RequirePackage[explicit]{titlesec}
+\RequirePackage{titletoc}
+\RequirePackage{bookmark}
+\RequirePackage{hyperref}
+\hypersetup{colorlinks=true, colorlinks=true, linkcolor=cbblue, filecolor=cbblue, urlcolor=cbblue,citecolor=cbblue}
+\RequirePackage{tabulary}
+\RequirePackage{array}
+\RequirePackage{graphicx}
+\graphicspath{\graphics}
+\RequirePackage{soul}
+\RequirePackage{adjustbox}
+\RequirePackage{multicol}
+\RequirePackage{longtable}
+\RequirePackage{fontspec}
+\RequirePackage{ifthen}
+\RequirePackage{geometry}
+\RequirePackage{pbox}
+\RequirePackage{fancyhdr}
+\RequirePackage{lipsum}
+\RequirePackage{float}
+\RequirePackage{eso-pic}
+\RequirePackage{etoolbox}
+\RequirePackage{wrapfig}
+\RequirePackage{tasks}
+\RequirePackage[normalem]{ulem}
+\RequirePackage{cellspace}
+\RequirePackage{kvoptions}
+\RequirePackage{xurl}
+\RequirePackage{ragged2e}
+\RequirePackage{natbib}
+\RequirePackage{anyfontsize}
+
+
+\geometry
+{
+	left=28.3pt, right=42.5pt, top=42.5pt, bottom=56.75pt, paperheight=842pt, paperwidth=595.25pt
+}
+
+\RequirePackage{tikz}
+\usetikzlibrary{
+    calc,trees,shadows,shadows.blur,positioning,arrows,chains,shapes.geometric, decorations, decorations.pathreplacing,decorations.pathmorphing,shapes,
+    matrix,fit,tikzmark,intersections,through,backgrounds,arrows.meta,datavisualization, shapes.misc,patterns}
+
+\def \tripinha{ (30:4) -- (90:4) -- (150:4)--(210:4)--(270:4)--(330:4) [shift={({4*sqrt(3)},0)}] --(270:4) -- (330:4) -- (30:4) -- (90:4)--(150:4)--cycle;}
+
+\def \tripa{ (30:4) -- (90:4) -- (150:4)--(210:4)--(270:4)--(330:4) [shift={({4*sqrt(3)},0)}] --(270:4) -- (330:4) [shift={({4*sqrt(3)},0)}]--  (270:4) -- (330:4) -- (30:4) -- (90:4)--(150:4) [shift={({-4*sqrt(3)},0)}] -- (90:4) -- (150:4)--cycle;}
+
+\def \tripalonga{ (30:4) -- (90:4) -- (150:4)--(210:4)--(270:4)--(330:4) [shift={({4*sqrt(3)},0)}] --(270:4) -- (330:4) [shift={({4*sqrt(3)},0)}] --(270:4) -- (330:4)[shift={({4*sqrt(3)},0)}] --(270:4) -- (330:4) [shift={({4*sqrt(3)},0)}]--  (270:4) -- (330:4) -- (30:4) -- (90:4)--(150:4) [shift={({-4*sqrt(3)},0)}] -- (90:4) -- (150:4)[shift={({-4*sqrt(3)},0)}] -- (90:4) -- (150:4) [shift={({-4*sqrt(3)},0)}] -- (90:4) -- (150:4)--cycle;}
+
+\newcolumntype{d}[1]{>{\vspace{2.5pt}}m{#1}<{\vspace{2.5pt}}}
+\newcolumntype{e}[1]{>{\vspace{2.5pt}\centering\arraybackslash}m{#1}<{\vspace{2.5pt}}}
+\newcolumntype{f}{>$c<$}
+\newcolumntype{g}[1]{>$e{#1}<$}
+
+%%%%%%%%%%%%%%%%%%% Boxes
+
+
+
+\newtcolorbox{refletindo*}[1]{%
+  colframe=blue,
+  colbacktitle=white,
+  coltitle=lightred,
+  boxed title style={arc=3mm,boxrule=.7mm,height=8mm,valign=center},
+  enhanced,colback=white,
+  boxrule=.7mm,titlerule=3mm,
+  attach boxed title to top left={yshift=-2mm,xshift=3mm},
+  arc=4mm,
+  breakable,
+  title={\bfseries REFLETINDO},#1,
+  before upper={\setlength\parskip{10pt}}
+}
+
+\newtcolorbox{caixinha}{%
+  width=.95\textwidth,
+  colframe=blue,
+  enhanced,
+  colback=white,
+  boxrule=.7mm,
+  arc=4mm,
+}
+
+
+%%%%%%%%%%%%%%%%%%% Seção
+
+
+% Redefine o comando \chapter
+
+\titleformat{\chapter}[hang]{\titlefont\color{red}\bfseries\fontsize{14pt}{14pt}\selectfont}{LIÇÃO \thechapter   }{0pt}{ - Para o professor}
+
+\titlespacing{\chapter}{0pt}{-19.2pt}{12pt} 
+
+\titlecontents*{chapter}% <section-type>
+  [0pt]% <left>
+  {}% <above-code>
+  {\bfseries\chaptername\ \thecontentslabel\quad}% <numbered-entry-format>
+  {}% <numberless-entry-format>
+  {\bfseries\hfill\contentspage}
+
+
+
+% Redefine o comando \section
+
+\titleformat{\section}[hang]{\titlefont\color{red}\bfseries\fontsize{14pt}{14pt}\selectfont}{}{0pt}{#1}
+
+\titlespacing{\section}{0pt}{12pt}{12pt} 
+
+
+%Cria o ambiente atividade
+
+\titleclass{\activity}{straight}[\section]
+\newcounter{atividade}[chapter]
+\newcommand*{\theactivity}{\arabic{atividade}}
+
+\titleformat{\activity}[hang]
+{\titlefont\color{lightred}\bfseries\fontsize{14pt}{14pt}\selectfont}
+{\theactivity}{0pt}
+{Atividade \theactivity \normalsize \normalfont}
+
+\titlespacing{\activity}{0pt}{17pt}{0pt} 
+\providecommand*{\toclevel@activity}{2}
+
+\newenvironment{atividade}{\refstepcounter{atividade}\activity{}\begin{multicols}{2}}{\end{multicols}}
+% \newenvironment{atividade}{\stepcounter{atividade}\activity{}}{}
+
+
+% Define os comandos para objetivos específicos, discussões e solução
+
+\titleformat{\paragraph}[hang]{\bfseries}{}{0pt}{#1}
+\titlespacing{\paragraph}{0pt}{0pt}{5pt} 
+
+\titleformat{\subsection}[hang]{\fontsize{12pt}{12pt}\selectfont\bfseries}{}{0pt}{#1}
+\titlespacing{\paragraph}{0pt}{0pt}{5pt} 
+
+\newcommand{\objetivos}{\paragraph{Objetivos específicos: Levar o aluno a}}
+\newcommand{\discussoes}{\paragraph{Discussões sobre o desenvolvimento da atividade}}
+\newcommand{\solucao}{\subsection{Solução da Atividade \theactivity}}
+
+
+% Altera o nome da lição na marcação de página
+
+  \newcommand*{\AddChapterPrefixInBookmarks}{%
+  \if@mainmatter
+    \ifnum\bookmarkget{level}=0 %
+      \preto\bookmark@text{Lição\space\thechapter:\space}%
+    \fi
+  \fi
+}
+
+\bookmarksetup{
+  addtohook=\AddChapterPrefixInBookmarks,
+}
+
+
+%%%%%%%%%%%%%%%%%%% Fontes
+
+\setmainfont[Path=\fontspath]{Marine-Regular}[BoldFont=Marine-Bold.ttf, ItalicFont=Omnes-Italic.ttf, BoldItalicFont=Omnes-Medium-Italic.ttf]
+
+\newfontfamily{\boxtitlefont}[Path=\fontspath]{Marine-Black}
+\newfontfamily{\titlefont}[Path=\fontspath]{Marine-Black}
+\newfontfamily{\frontpagefont}[Path=\fontspath]{Marine-Regular}
+\newfontfamily{\notefont}[Path=\fontspath]{HomemadeApple}
+
+\DeclareFontShape{TU}{Marine-Black(0)}{b}{n}{<->ssub * Marine-Black(0)/m/n}{}
+
+
+\setlength\baselineskip{12pt}
+\setlength\parskip{3pt}
+\setlength\parindent{0pt}
+
+%%%%%%%%%%%%%%%%%%% Cores
+
+
+\definecolor{lightblue}{HTML}{0084b8}
+\definecolor{blue}{HTML}{006c96}
+\definecolor{darkblue}{HTML}{00507d}
+
+\definecolor{red}{HTML}{b01829}
+\definecolor{lightred}{HTML}{d74c49}
+\definecolor{lightpink}{HTML}{fdf1f5}
+
+\definecolor{orange}{HTML}{f9be75}
+\definecolor{brown}{HTML}{ceb894}
+\definecolor{orangebrown}{HTML}{d7967e}
+
+
+
+
+\definecolor{cbpurple}{cmyk}{.64,.98,.16,0} %Roxo
+\definecolor{cbolive}{cmyk}{.75,.44,1,.06} %Verde Oliva
+\definecolor{cbgreen}{cmyk}{.75,.44,1,.06} %Verde Oliva
+\definecolor{cbred}{cmyk}{0,.98,.56,0} %Vermelho
+\definecolor{cborange}{cmyk}{0,.55,.64,0} %Laranja
+\definecolor{cbcyan}{cmyk}{.45,0,.08,0} %Azul claro
+\definecolor{cbpink}{cmyk}{0,.09,.13,0} %Rosa claro
+
+\definecolor{cbbrown}{RGB}{86,44,1} %Marrom rachurado
+\definecolor{stred}{cmyk}{.41,.85,.58,.17} %vermelho quadriculado
+\definecolor{cbblue}{cmyk}{.91,.41,.21,0} %Azul listrado
+\definecolor{cbyellow}{RGB}{249,193,117} %Amarelo
+
+\definecolor{cbgray}{RGB}{98,101,98} %  
+
+% \definecolor{bwattention}{cmyk}{.53,.42,.42,0}
+
+% \definecolor{dark}{RGB}{97,83,117}
+\colorlet{common}{cbcyan}
+\colorlet{special}{cbpink}
+
+\colorlet{light}{cborange}
+\colorlet{attention}{cbred}
+
+\colorlet{dark}{stred}
+
+\colorlet{bwattention}{cbred}
+
+\colorlet{chocolate}{cbbrown}
+
+\newcommand{\stblue}{pattern=north west lines, pattern color=cbblue}
+
+\pgfdeclarepatterninherentlycolored{rotated checkerboard}
+{\pgfpointorigin}{\pgfqpoint{3mm}{3mm}}{\pgfqpoint{3mm}{3mm}}%
+{
+  \pgfsetfillcolor{white}
+  \pgfpathrectangle{\pgfpointorigin}{\pgfqpoint{3.1mm}{3.1mm}}% make
+                                % slightly larger to ensure that tiles
+                                % are really solid
+  \pgfusepath{fill}
+  \pgfsetfillcolor{stred}
+  \pgfpathmoveto{\pgfqpoint{0mm}{1.5mm}}
+  \pgfpathlineto{\pgfqpoint{1.5mm}{3mm}}
+  \pgfpathlineto{\pgfqpoint{3mm}{1.5mm}}
+  \pgfpathlineto{\pgfqpoint{1.5mm}{0mm}}
+  \pgfpathlineto{\pgfqpoint{0mm}{1.5mm}}
+  \pgfusepath{fill}
+}
+
+
+% \fi
+
+%%%%%%%%%%%%%% Legacy colors
+
+% \definecolor{dark}{RGB}{97,83,117}
+% \definecolor{common}{RGB}{142,178,197}
+
+% \definecolor{special}{RGB}{229,98,92}
+% \definecolor{light}{RGB}{249,191,118}
+% \definecolor{attention}{RGB}{209,49,61}
+
+%% Colorblind palete
+
+% \definecolor{cbolive}{RGB}     {24,157,122}
+% \definecolor{cborange}{RGB}   {230,96,0}
+% \definecolor{cbpurple}{RGB}  {122,113,180}
+% \definecolor{cbpink}{RGB}    {246,39,150}
+% \definecolor{cbgreen}{RGB}  {107,165,31}
+% \definecolor{cbyellow}{RGB}  {246,175,7}
+% \definecolor{cbbrown}{RGB}    {172,116,31}
+% \definecolor{cbgray}{RGB}  {98,101,98}
+
+
+% Impressão em preto e branco
+
+\DeclareOption{monocromatico}
+{
+  %Paleta do template
+  \definecolor{lightblue}{HTML}{878787}
+  \definecolor{blue}{HTML}{706f6f}
+  \definecolor{darkblue}{HTML}{1d1d1b}
+
+  \definecolor{red}{HTML}{3c3c3b}
+  \definecolor{lightred}{HTML}{b2b2b2}
+  \definecolor{lightpink}{HTML}{dadada}
+
+  \definecolor{orange}{HTML}{f9be75}
+  \definecolor{brown}{HTML}{ceb894}
+  \definecolor{orangebrown}{HTML}{d7967e}
+
+  % Paleta para ilustrações
+  \definecolor{cbpurple}{cmyk}{.78,.74,.67,.31} %Roxo
+  \definecolor{cbolive}{cmyk}{.73,.67,.62,.13} %Verde Oliva
+  \definecolor{cbgreen}{cmyk}{.73,.67,.62,.13} %Verde Oliva
+  \definecolor{cbred}{cmyk}{.53,.42,.42,0} %Vermelho
+  \definecolor{cborange}{cmyk}{.34,.25,.27,0} %Laranja
+  \definecolor{cbcyan}{cmyk}{.18,.14,.15,0} %Azul claro
+  \definecolor{cbpink}{cmyk}{0.06,.06,.05,0} %Rosa claro
+
+  \definecolor{cbbrown}{RGB}{52,52,52} %Marrom rachurado
+  \definecolor{stred}{cmyk}{.75,.67,.62,.17} %vermelho quadriculado
+  \definecolor{cbblue}{cmyk}{.65,.57,.66,.03} %Azul listrado
+  \definecolor{cbyellow}{RGB}{185,185,185} %Amarelo
+  \definecolor{cbgray}{RGB}{98,101,98} %  
+
+  \definecolor{blueribbon}{RGB}{172,172,172}
+  \definecolor{yellowribbon}{RGB}{186,186,186}
+  \definecolor{redribbon}{RGB}{106,106,106}  
+
+  \colorlet{common}{cbcyan}
+  \colorlet{special}{cbpink}
+  \colorlet{light}{cborange}
+  \colorlet{attention}{cbred}
+  \colorlet{dark}{stred}
+  \colorlet{bwattention}{cbred}
+  \colorlet{chocolate}{cbbrown}
+
+  \titleformat{\activity}[hang]{
+    \titlefont\color{red}\bfseries\fontsize{14pt}{14pt}\selectfont}
+    {\theactivity}{0pt}
+    {Atividade \theactivity \normalsize \normalfont}
+
+  \renewcommand{\graphics}{Figuras/monocromatico/}
+  \def\monochrome{1}
+}
+% \DeclareOption*{\PackageWarning{examplepackage}{Unknown ‘\CurrentOption’}}
+
+\ProcessOptions\relax
+
+%%%%%%%%%%%%%%%%%%% Configurações de página
+
+% Define as camadas do documento.
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfdeclarelayer{top}
+\pgfdeclarelayer{bottom}
+\pgfsetlayers{bottom,background,main,foreground,top}
+
+
+% Define estilo das listas
+\setlist[enumerate]{wide, label={\alph*)},labelsep=2.5pt}
+\setlist[enumerate,2]{left=1em,label={\roman*)},labelsep=2.5pt}
+\setlist[itemize]{wide,labelsep=2.5pt,itemsep=0pt,topsep=0pt}
+\settasks{label-width=15pt,item-indent=20pt, after-item-skip={\parskip+\baselineskip}, label={\alph*)}}
+
+\setlength\footskip{29.74994pt}
+\setlength\columnsep{14.1pt}
+\renewcommand{\chaptermark}[1]{\markboth{{#1}}{}}
+
+% Numeração das páginas
+
+\newcommand{\leftpagenumber}{%
+    \begin{tikzpicture}[remember picture, overlay]
+        \coordinate (bottom) at ($(current page.south west) + (0pt,20.45pt)$);
+        \begin{pgfonlayer}{main}
+            \node (banner) [fill, lightred, rounded rectangle, rounded rectangle west arc=none, minimum width = 93.5pt, minimum height=15.8pt, anchor=south west] at (bottom) {};
+        \end{pgfonlayer}
+        \begin{pgfonlayer}{foreground}
+            \node [text=white, font=\fontsize{14pt}{14pt}\titlefont\selectfont, anchor=west] at ($(current page.south west)+(55pt,28.35pt)$) {};
+            \node [right of=banner,font=\fontsize{11pt}{11pt}\selectfont, anchor =  west, node distance=50pt] {\color{black}Manual do Professor};
+        \end{pgfonlayer}
+    \end{tikzpicture}
+}
+
+\newcommand{\rightpagenumber}{%
+    \begin{tikzpicture}[remember picture, overlay]
+        \coordinate (bottom) at ($(current page.south west) + (0pt,20.45pt)$);
+        \begin{pgfonlayer}{main}
+            \node (banner) [fill, lightred, rounded rectangle, rounded rectangle west arc=none, minimum width = 93.5pt, minimum height=15.8pt, anchor=south west] at (bottom) {};
+        \end{pgfonlayer}
+        \begin{pgfonlayer}{foreground}
+            \node [text=white, font=\fontsize{14pt}{14pt}\titlefont\selectfont, anchor=west] at ($(current page.south west)+(55pt,28.35pt)$) {};
+            \node [right of=banner,font=\fontsize{11pt}{11pt}\selectfont, anchor =  west, node distance=50pt] {\color{black}Manual do Professor};
+        \end{pgfonlayer}
+    \end{tikzpicture}
+}
+
+% \newcommand{\rightpagenumber}{%
+%     \begin{tikzpicture}[remember picture, overlay]
+%         \coordinate (bottom) at ($(current page.south east) + (0pt,20.45pt)$);
+%         \begin{pgfonlayer}{main}
+%             \node (banner) [fill, lightred, rounded rectangle, rounded rectangle east arc=none, minimum width = 93.5pt, minimum height=15.8pt, anchor=south east,] at (bottom) {};
+%         \end{pgfonlayer}
+%         \begin{pgfonlayer}{foreground}
+%             \node [text=white, font=\fontsize{14pt}{14pt}\titlefont\selectfont, anchor=east] at ($(current page.south east)+(-55pt,28.35pt)$) {\thepage};
+%             \node [left of=banner,font=\fontsize{11pt}{11pt}\selectfont, anchor =  east, node distance=50pt] {\color{black}Manual do Professor};
+%         \end{pgfonlayer}
+%     \end{tikzpicture}
+% }
+
+
+\pagestyle{plain}{}
+
+
+
+% Configura a numeração das páginas
+\makeevenfoot{plain}{}{\leftpagenumber}{}
+\makeoddfoot{plain}{}{\rightpagenumber}{}
+
+% Cria faixa azul no topo da página
+\makeevenhead{plain}{}{
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill [lightred] (current page.north west) rectangle ($(current page.north east) - (0pt,15.8pt)$);
+  \end{tikzpicture}
+}{}
+
+\makeoddhead{plain}{}{
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill [lightred] (current page.north west) rectangle ($(current page.north east) - (0pt,15.8pt)$);
+  \end{tikzpicture}
+}{}
+
+
+
+% Comando para criar réguas das margens para referência
+\newcommand{\oddpagerule}{
+  \begin{tikzpicture}[overlay, remember picture]
+    \draw ($(current page.north west)+(85pt,0)$) -- ($(current page.south west)+(85pt,0)$);
+    \draw ($(current page.north west)+(538.5pt,0)$) -- ($(current page.south west)+(538.5pt,0)$);
+    \draw ($(current page.north west)+(0,-42.5pt)$) -- ($(current page.north east)+(0,-42.5pt)$);
+    \draw ($(current page.north west)+(0,-785.2pt)$) -- ($(current page.north east)+(0,-785.2pt)$);
+  \end{tikzpicture}
+}
+
+
+\newcommand{\evenpagerule}
+{
+  \begin{tikzpicture}[overlay, remember picture]
+    \draw ($(current page.north west)+(56.7pt,0)$) -- ($(current page.south west)+(56.7pt,0)$);
+    \draw ($(current page.north east)+(-85pt,0)$) -- ($(current page.south east)+(-85pt,0)$);
+    \draw ($(current page.north west)+(0,-42.5pt)$) -- ($(current page.north east)+(0,-42.5pt)$);
+    \draw ($(current page.north west)+(0,-785.2pt)$) -- ($(current page.north east)+(0,-785.2pt)$);
+  \end{tikzpicture}
+}
+
+\newcommand{\anotacoes}{\newpage
+\vspace*{-1.2cm}
+\thispagestyle{empty}
+\hspace{-2cm} 
+\begin{tikzpicture}[anchor=north, normal lines/.style={gray, thin}, every node/.append style={black, align=center, opacity=1}, overlay, remember picture]
+\foreach \y in {0.71,1.41,...,25.5,26}
+\draw[normal lines, lightgray] ($(current page.south west)+(0,\y)$) -- ($(current page.south west)+(8.1 in,\y)$);
+\draw[normal lines, attention] ($(current page.south west)+(2cm,0)$) -- ($(current page.north west)+(2cm,0)$);
+\node (t) [ font=\Huge, anchor=south] at ($(current page.south west)!.5!(current page.south east)+(0,27)$) {\notefont Notas de Aula};
+\end{tikzpicture}%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill [lightred] (current page.north west) rectangle ($(current page.north east) - (0pt,15.8pt)$);
+  \end{tikzpicture}
+\newpage
+}
+

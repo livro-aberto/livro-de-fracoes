@@ -1,0 +1,10 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	],
+	"settings": {"TEXroot": "X:\\GitHub\\livro-de-fracoes\\aluno.tex"},
+	// "settings": {"TEXroot": "X:\\GitHub\\livro-de-fracoes\\professor.tex"},
+}
